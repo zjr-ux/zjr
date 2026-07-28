@@ -1,1 +1,29 @@
-{"vault": 0, "history": []}
+{
+  "vault": 0,
+  "history": [
+    {
+      "month": "2026-07",
+      "name": "VOO",
+      "price": 681.42,
+      "ma12": 627.45,
+      "raw_pct": 8.6,
+      "cut_pct": 8.6,
+      "zone": "线性折算区间",
+      "amount": 6397.9,
+      "vault_pay": 0,
+      "self_pay": 6397.9
+    },
+    {
+      "month": "2026-07",
+      "name": "QQQM",
+      "price": 278.75,
+      "ma12": 258.23,
+      "raw_pct": 7.95,
+      "cut_pct": 7.95,
+      "zone": "线性折算区间",
+      "amount": 2761.61,
+      "vault_pay": 0,
+      "self_pay": 2761.61
+    }
+  ]
+}
