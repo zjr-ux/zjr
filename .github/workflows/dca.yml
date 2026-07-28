@@ -2,12 +2,15 @@ name: DCA Monthly Report
 
 on:
   schedule:
-    - cron: '0 1 1 * *'   # 每月1号 UTC 01:00 = 北京时间 09:00
-  workflow_dispatch:        # 允许你手动点按钮测试
+    - cron: '0 1 1 * *'
+  workflow_dispatch:
 
 jobs:
   run:
     runs-on: ubuntu-latest
+    env:
+      PYTHONIOENCODING: utf-8
+      PYTHONUTF8: "1"
     steps:
       - uses: actions/checkout@v4
 
@@ -20,15 +23,24 @@ jobs:
 
       - name: Run DCA script
         run: |
+          set +e
           python dca_auto.py > output.txt 2>&1
+          CODE=$?
+          echo "----- 脚本输出开始 -----"
           cat output.txt
+          echo "----- 脚本输出结束 -----"
+          exit $CODE
 
       - name: Send to WeChat via PushPlus
+        if: always()
         run: |
           python -c "
-          import requests, json
-          with open('output.txt', 'r') as f:
-              content = f.read()
+          import requests
+          try:
+              with open('output.txt', 'r', encoding='utf-8') as f:
+                  content = f.read()
+          except Exception as e:
+              content = '(没有输出: %s)' % e
           data = {
               'token': '${{ secrets.PUSHPLUS_TOKEN }}',
               'title': '📊 DCA定投月报',
@@ -36,13 +48,13 @@ jobs:
               'template': 'html'
           }
           r = requests.post('https://www.pushplus.plus/send', json=data)
-          print('PushPlus response:', r.json())
+          print('PushPlus:', r.text)
           "
 
       - name: Save data file back to repo
+        if: always()
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add dca_auto_data.json
-          git diff --cached --quiet || git commit -m "📅 auto-update data"
-          git push
+          git add dca_auto_data.json || true
+          git diff --cached --quiet && echo "nothing to commit" || { git commit -m "auto-update data"; git push; }
