@@ -24,6 +24,30 @@
       "amount": 2761.61,
       "vault_pay": 0,
       "self_pay": 2761.61
+    },
+    {
+      "month": "2026-08",
+      "name": "VOO",
+      "price": 686.65,
+      "ma12": 627.45,
+      "raw_pct": 9.44,
+      "cut_pct": 9.44,
+      "zone": "线性折算区间",
+      "amount": 6339.55,
+      "vault_pay": 0,
+      "self_pay": 6339.55
+    },
+    {
+      "month": "2026-08",
+      "name": "QQQM",
+      "price": 283.29,
+      "ma12": 258.23,
+      "raw_pct": 9.7,
+      "cut_pct": 9.7,
+      "zone": "线性折算区间",
+      "amount": 2708.86,
+      "vault_pay": 0,
+      "self_pay": 2708.86
     }
   ]
 }
